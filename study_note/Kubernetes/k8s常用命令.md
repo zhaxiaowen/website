@@ -44,6 +44,35 @@ kubectl label nodes node01 disk-         #删除节点node01的disk标签
 
 ```
 
+#### 重启deployment
+
+```
+## 第一种方法
+kubectl rollout restart deploy <deployment-name> -n <namespace>
+
+## 第二种方法:加环境变量
+kubectl patch deploy <deployment-name> 
+  -p '{"spec":{"template":{"spec":{"containers":[{"name":"<container-name>","env":[{"name":"RESTART_TIME","value":"'$(date +%s)'"}]}]}}}}'
+  
+## 第三种:重新设置镜像
+```
+
+#### rollout
+
+```
+# 查看deployment历史版本
+
+ kubectl rollout history deployment frontend-perfchild -n wswangyueche-dev01
+ 
+ # 查看滚动状态
+ kubectl rollout status deployment frontend-perfchild -n wswangyueche-dev01
+ 
+ # 查看当前版本:  Annotations:            deployment.kubernetes.io/revision: 9
+ kubectl describe deployment frontend-perfchild -n wswangyueche-dev01
+```
+
+
+
 #### rollout回滚
 
 ```
