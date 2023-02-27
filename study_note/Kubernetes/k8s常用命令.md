@@ -57,6 +57,15 @@ kubectl patch deploy <deployment-name>
 ## 第三种:重新设置镜像
 ```
 
+#### 执行命令
+
+```
+kubectl exec -it nginx --  pwd  	# 不进pod执行命令
+kubectl exec -it nginx -- sh -c pwd	# 不进pod执行命令
+```
+
+
+
 #### rollout
 
 ```
@@ -94,7 +103,22 @@ kubectl patch deploy <deployment-name>
 ```
 kubectl label nodes node1 beta.kubernetes.io/fluentd-ds-ready=true   #添加
 kubectl label node node1  beta.kubernetes.io/fluentd-ds-ready-   #删除
+kubectl label po nginx app=v2 overwrite  # 修改
+kubectl get pod nginx --label-columns=app #显示标签带有app的列
+kubectl get pod -l app=v2  # 显示标签app=v2的pod
+kubectl get pod -l 'app in (v2)' # 显示标签app=v2的pod
+kubectl label po -l 'app in (v1,v2)' tier=web
 ```
+
+#### annotation
+
+```
+kubectl annotate pod nginx description='my description' #添加注解
+kubectl annotate pod nginx1 -l		# 删除注解
+kubectl annotate pod nginx1 --list  #查看pod的注解
+```
+
+
 
 #### 将本地端口9200转发到es-pod对应的端口
 
